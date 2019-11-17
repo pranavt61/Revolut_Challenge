@@ -31,7 +31,7 @@ except FileNotFoundError:
 token_file_path = "./tokens.txt"
 token_list = []
 
-# get top 20 tokens by marketcap
+# get top 5 tokens by marketcap
 num_tokens = 5
 resp = requests.get("http://api.ethplorer.io/getTop?apiKey=freekey&limit=" + str(num_tokens))
 if resp.status_code != 200:

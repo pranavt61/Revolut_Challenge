@@ -95,8 +95,6 @@ def update_database(cur, table_quick, table_tx, table_block, table_tokens):
     tokens = tokens[:-1]
     tokens += ");"
 
-    print(tokens)
-
     cur.executemany(quick, table_quick)
     cur.executemany(tx, table_tx)
     cur.executemany(blck, table_block)
