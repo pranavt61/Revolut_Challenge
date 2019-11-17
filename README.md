@@ -15,7 +15,11 @@ Database management system: SQLite.
 # 2. or connection via local node 
 #web3 = Web3(Web3.IPCProvider('/your-path-to/geth.ipc'))
 ```
-3. execute:
+3. set number of tokens to track
+```
+35: num_tokens=N
+```
+4. execute:
 ```python database.py```
 
 
@@ -25,10 +29,12 @@ Database consists of 3 tables:
 - **Quick**: most relevant transaction info for quick access & analysis
 - **TX**: all remainder transaction info
 - **Block**: block-specific info
+- **Token_Balance**: top N ERC20 tokens balances for addresses that have been seen
 
-Quick | TX | Block
-------|----|------
-'from'/'sender', 'to'/'recipient', 'value', 'nonce', 'blockNumber', 'txHash', 'balanceTo', 'balanceFrom' | 'blockNumber', 'gas', 'gasPrice', 'input', 'transactionIndex', 'v', 'r', 's', 'contractAddress', 'cumulativeGasUsed', 'gasUsed', 'logs', 'logsBloom', 'status', 'transactionHash' | 'difficulty', 'extraData', 'gasLimit', 'blockGasUsed', 'blockHash', 'blockLogsBloom', 'miner', 'mixHash', 'blockNonce', 'blockNumber', 'parentHash', 'receiptsRoot', 'sha3Uncles', 'size', 'stateRoot', 'timestamp', 'totalDifficulty', 'transactions', 'transactionsRoot', 'uncles'
+
+Quick | TX | Block | Token_Balance
+------|----|------|----------------
+'from'/'sender', 'to'/'recipient', 'value', 'nonce', 'blockNumber', 'txHash', 'balanceTo', 'balanceFrom' | 'blockNumber', 'gas', 'gasPrice', 'input', 'transactionIndex', 'v', 'r', 's', 'contractAddress', 'cumulativeGasUsed', 'gasUsed', 'logs', 'logsBloom', 'status', 'transactionHash' | 'difficulty', 'extraData', 'gasLimit', 'blockGasUsed', 'blockHash', 'blockLogsBloom', 'miner', 'mixHash', 'blockNonce', 'blockNumber', 'parentHash', 'receiptsRoot', 'sha3Uncles', 'size', 'stateRoot', 'timestamp', 'totalDifficulty', 'transactions', 'transactionsRoot', 'uncles' | 'wallet_address', '[Token Symbol]', '[Token Symbol]', ...
 
 ### Meaning of the variables in the EthereumDB
 
@@ -85,7 +91,11 @@ Variable | Meaning
 **transactionsRoot** | Keccak256 hash of the root node of the trie structure populated with the receipts of each transaction in the transactions list
 **uncles** | list of uncle hashes
 
-
+#### Token_Balance
+Variable | Meaning
+--- | --- 
+**wallet_address** | address of wallet
+**[Token Symbol]** | balance for each token, one column per token
 
 [source1](https://ethereum.github.io/yellowpaper/paper.pdf)
 [source 2](https://ethereum.stackexchange.com/questions/10548/what-does-every-field-in-block-means)
