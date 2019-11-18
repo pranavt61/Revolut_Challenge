@@ -104,6 +104,8 @@ def order_table_tx(tx_data,hashh, web3):
     return TX_table
 
 def order_table_token(wallet, tokens, web3):
+    if web3.isAddress(wallet) == False:
+        return None
     token_entry = {"wallet_address": wallet}
     for t in tokens:
         contract = web3.eth.contract(t["address"], abi=ERC20_ABI)

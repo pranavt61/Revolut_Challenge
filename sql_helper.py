@@ -86,16 +86,18 @@ def update_database(cur, table_quick, table_tx, table_block, table_tokens):
     quick = """INSERT INTO Quick VALUES (:balanceFrom, :balanceTo, :blockNumber, :from, :nonce, :to, :txHash, :value); """
     tx = """ INSERT INTO TX VALUES (:blockNumber, :contractAddress, :cumulativeGasUsed, :gas, :gasPrice, :gasUsed, :input, :logs, :logsBloom, :r, :s, :status, :txHash, :transactionIndex, :v); """
     blck = """ INSERT INTO block VALUES (:blockGasUsed, :blockHash, :blockLogsBloom, :blockNonce, :blockNumber,  :difficulty, :extraData, :gasLimit, :miner, :mixHash, :parentHash, :receiptsRoot, :sha3Uncles, :size, :stateRoot, :timestamp, :totalDifficulty, :transactions, :transactionsRoot, :uncles); """ 
-    tokens = """ INSERT INTO token_balance VALUES ( :wallet_address,"""
-
-    for t in table_tokens[0]:
-        if t == "wallet_address":
-            continue
-        tokens += " :" + t + ","
-    tokens = tokens[:-1]
-    tokens += ");"
+    tokens = """ INSERT OR REPLACE INTO token_balance VALUES ( :wallet_address,"""
+    
+    if len(table_tokens) > 0:
+        for t in table_tokens[0]:
+            if t == "wallet_address":
+                continue
+            tokens += " :" + t + ","
+        tokens = tokens[:-1]
+        tokens += ");"
 
     cur.executemany(quick, table_quick)
     cur.executemany(tx, table_tx)
     cur.executemany(blck, table_block)
-    cur.executemany(tokens, table_tokens)
+    if len(table_tokens) > 0:
+        cur.executemany(tokens, table_tokens)

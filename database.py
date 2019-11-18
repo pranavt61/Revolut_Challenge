@@ -98,6 +98,8 @@ for block in range(start, start+Nblocks):
     #find token balances
     for w in wallet_addresses:
         token_entry = order_table_token(w, token_list, web3)
+        if token_entry == None:
+            continue
         table_tokens.append(token_entry)
     del wallet_addresses
 
