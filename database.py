@@ -18,7 +18,7 @@ web3 = Web3(Web3.HTTPProvider("https://mainnet.infura.io/v3/9d4b89c7861946969efa
 #web3 = Web3(Web3.IPCProvider('/your-path-to/geth.ipc'))
 
 # load a block.
-Nblocks = 100
+Nblocks = 10
 output_every = 2
 start_time = time.time()
 try:
@@ -33,7 +33,9 @@ token_list = []
 
 # get top 5 tokens by marketcap
 num_tokens = 5
-resp = requests.get("http://api.ethplorer.io/getTop?apiKey=freekey&limit=" + str(num_tokens))
+
+# NOTE num_tokens needs to be one more due to excluding ETH
+resp = requests.get("http://api.ethplorer.io/getTop?apiKey=freekey&limit=" + str(num_tokens + 1))
 if resp.status_code != 200:
     raise ApiError("Failed to retrieve token data")
 
